@@ -22,7 +22,7 @@ function initializeGame() {
   turrets = [];
   turretBullets = [];
   inputHandler = new InputHandler(player, bullets);
-  spawnRate = 5000;
+  spawnRate = 3000;
   lastSpawn = Date.now();
   startTime = Date.now();
   gameOver = false;
@@ -47,7 +47,7 @@ function isSpawnLocationValid(x, y) {
   let dx = player.x - x;
   let dy = player.y - y;
   let distance = Math.sqrt(dx * dx + dy * dy);
-  if (distance < 100) return false;
+  if (distance < 200) return false;
   return true;
 }
 
@@ -109,7 +109,7 @@ function gameLoop() {
   if (Date.now() - lastSpawn > spawnRate) {
     spawnTurret();
     lastSpawn = Date.now();
-    if (spawnRate > 1000) spawnRate -= 300;
+    if (spawnRate > 1200) spawnRate -= 200;
   }
   player.move(inputHandler.keys);
   player.draw(ctx);
