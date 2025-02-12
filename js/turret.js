@@ -2,24 +2,22 @@ class Turret {
   constructor(x, y, type) {
     this.x = x;
     this.y = y;
-    this.type = type; // "basic", "fast", "heavy"
+    this.type = type;
+    this.size = 30;
     this.lastShot = 0;
 
     if (type === "basic") {
-      this.fireRate = 1000; // 1 shot per second
+      this.fireRate = 2000;
       this.bulletSpeed = 3;
       this.bulletSize = 5;
-      this.canDestroyBullets = true;
     } else if (type === "fast") {
-      this.fireRate = 500; // 2 shots per second
+      this.fireRate = 1000;
       this.bulletSpeed = 5;
-      this.bulletSize = 4;
-      this.canDestroyBullets = true;
+      this.bulletSize = 5;
     } else if (type === "heavy") {
-      this.fireRate = 1500; // Slower fire rate
+      this.fireRate = 3000;
       this.bulletSpeed = 2;
       this.bulletSize = 10;
-      this.canDestroyBullets = false;
     }
   }
 
@@ -33,7 +31,7 @@ class Turret {
           angle,
           this.bulletSpeed,
           this.bulletSize,
-          this.canDestroyBullets
+          false
         )
       );
       this.lastShot = Date.now();
@@ -47,6 +45,11 @@ class Turret {
         : this.type === "fast"
         ? "orange"
         : "purple";
-    ctx.fillRect(this.x - 10, this.y - 10, 20, 20);
+    ctx.fillRect(
+      this.x - this.size / 2,
+      this.y - this.size / 2,
+      this.size,
+      this.size
+    );
   }
 }

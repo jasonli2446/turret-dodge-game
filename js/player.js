@@ -8,10 +8,20 @@ class Player {
   }
 
   move(keys) {
-    if (keys["w"] && this.y > this.radius) this.y -= this.speed;
-    if (keys["s"] && this.y < canvas.height - this.radius) this.y += this.speed;
-    if (keys["a"] && this.x > this.radius) this.x -= this.speed;
-    if (keys["d"] && this.x < canvas.width - this.radius) this.x += this.speed;
+    if ((keys["w"] || keys["ArrowUp"]) && this.y > this.radius)
+      this.y -= this.speed;
+    if (
+      (keys["s"] || keys["ArrowDown"]) &&
+      this.y < canvas.height - this.radius
+    )
+      this.y += this.speed;
+    if ((keys["a"] || keys["ArrowLeft"]) && this.x > this.radius)
+      this.x -= this.speed;
+    if (
+      (keys["d"] || keys["ArrowRight"]) &&
+      this.x < canvas.width - this.radius
+    )
+      this.x += this.speed;
   }
 
   draw(ctx) {
@@ -19,11 +29,5 @@ class Player {
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = "blue";
     ctx.fill();
-
-    // Draw hearts
-    for (let i = 0; i < this.health; i++) {
-      ctx.fillStyle = "red";
-      ctx.fillRect(10 + i * 25, 10, 20, 20);
-    }
   }
 }

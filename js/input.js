@@ -1,12 +1,22 @@
-window.addEventListener("keydown", (event) => {
-  keys[event.key] = true;
-});
+class InputHandler {
+  constructor(player, bullets) {
+    this.keys = {};
+    this.player = player;
+    this.bullets = bullets;
 
-window.addEventListener("keyup", (event) => {
-  keys[event.key] = false;
-});
+    window.addEventListener("keydown", (event) => {
+      this.keys[event.key] = true;
+    });
 
-canvas.addEventListener("click", (event) => {
-  const angle = Math.atan2(event.clientY - player.y, event.clientX - player.x);
-  bullets.push(new Bullet(player.x, player.y, angle));
-});
+    window.addEventListener("keyup", (event) => {
+      this.keys[event.key] = false;
+    });
+
+    canvas.addEventListener("click", (event) => {
+      const angle = Math.atan2(
+        event.clientY - this.player.y,
+        event.clientX - this.player.x
+      );
+    });
+  }
+}
