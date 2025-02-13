@@ -58,11 +58,16 @@ function spawnTurret() {
   let turretTypes = ["basic"];
   if (elapsedTime > 10) turretTypes.push("fast");
   if (elapsedTime > 20) turretTypes.push("heavy");
+
+  const cameraX = player.x - canvas.width / 2;
+  const cameraY = player.y - canvas.height / 2;
+
   let x, y;
   do {
-    x = Math.random() * canvas.width;
-    y = Math.random() * canvas.height;
+    x = Math.random() * canvas.width + cameraX;
+    y = Math.random() * canvas.height + cameraY;
   } while (!isSpawnLocationValid(x, y));
+
   let type = turretTypes[Math.floor(Math.random() * turretTypes.length)];
   turrets.push(new Turret(x, y, type));
 }
@@ -74,7 +79,7 @@ function drawUI() {
   ctx.fillText(`Time Survived: ${elapsedTime}s`, 10, 30);
   for (let i = 0; i < player.health; i++) {
     ctx.fillStyle = "red";
-    ctx.fillRect(10 + i * 25, 50, 20, 20);
+    ctx.fillRect(10 + i * 25, 60, 20, 20);
   }
 }
 
@@ -98,6 +103,17 @@ function displayGameOver(score) {
 function gameLoop() {
   if (gameOver) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Calculate camera offset
+  const cameraX = player.x - canvas.width / 2;
+  const cameraY = player.y - canvas.height / 2;
+
+  // Save the current context state
+  ctx.save();
+
+  // Translate the context to center the player
+  ctx.translate(-cameraX, -cameraY);
+
   let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
   if (elapsedTime > 10) {
     turrets.forEach((turret) => {
@@ -130,17 +146,13 @@ function gameLoop() {
     turret.draw(ctx);
   });
   CollisionHandler.handleCollisions(bullets, turrets, turretBullets, player);
+
+  // Restore the context to its original state
+  ctx.restore();
+
   drawUI();
   requestAnimationFrame(gameLoop);
 }
-
-canvas.addEventListener("mousedown", (event) => {
-  let rect = canvas.getBoundingClientRect();
-  let mouseX = event.clientX - rect.left;
-  let mouseY = event.clientY - rect.top;
-  let angle = Math.atan2(mouseY - player.y, mouseX - player.x);
-  bullets.push(new Bullet(player.x, player.y, angle, 10, 5, true));
-});
 
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;

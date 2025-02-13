@@ -8,20 +8,10 @@ class Player {
   }
 
   move(keys) {
-    if ((keys["w"] || keys["ArrowUp"]) && this.y > this.radius)
-      this.y -= this.speed;
-    if (
-      (keys["s"] || keys["ArrowDown"]) &&
-      this.y < canvas.height - this.radius
-    )
-      this.y += this.speed;
-    if ((keys["a"] || keys["ArrowLeft"]) && this.x > this.radius)
-      this.x -= this.speed;
-    if (
-      (keys["d"] || keys["ArrowRight"]) &&
-      this.x < canvas.width - this.radius
-    )
-      this.x += this.speed;
+    if (keys["w"] || keys["ArrowUp"]) this.y -= this.speed;
+    if (keys["s"] || keys["ArrowDown"]) this.y += this.speed;
+    if (keys["a"] || keys["ArrowLeft"]) this.x -= this.speed;
+    if (keys["d"] || keys["ArrowRight"]) this.x += this.speed;
   }
 
   draw(ctx) {
