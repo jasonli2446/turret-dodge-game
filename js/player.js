@@ -3,7 +3,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.radius = 15;
-    this.speed = 3;
+    this.speed = 5;
     this.health = 3;
   }
 

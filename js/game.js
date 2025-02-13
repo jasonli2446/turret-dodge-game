@@ -14,7 +14,8 @@ let player,
   spawnRate,
   lastSpawn,
   startTime,
-  gameOver;
+  gameOver,
+  turretsDestroyed;
 
 function initializeGame() {
   player = new Player(canvas.width / 2, canvas.height / 2);
@@ -26,6 +27,7 @@ function initializeGame() {
   lastSpawn = Date.now();
   startTime = Date.now();
   gameOver = false;
+  turretsDestroyed = 0;
 }
 
 function startGame() {
@@ -80,7 +82,9 @@ function displayGameOver(score) {
   gameOver = true;
   const scoreElement = document.createElement("div");
   scoreElement.id = "gameOver";
-  scoreElement.innerHTML = `Game Over! Score: ${score * 100}`;
+  scoreElement.innerHTML = `Game Over! Score: ${
+    score * 100
+  }<br>Turrets Destroyed: ${turretsDestroyed}`;
   document.body.appendChild(scoreElement);
   const playAgainButton = document.createElement("button");
   playAgainButton.id = "playAgain";
@@ -135,7 +139,7 @@ canvas.addEventListener("mousedown", (event) => {
   let mouseX = event.clientX - rect.left;
   let mouseY = event.clientY - rect.top;
   let angle = Math.atan2(mouseY - player.y, mouseX - player.x);
-  bullets.push(new Bullet(player.x, player.y, angle, 7, 5, true));
+  bullets.push(new Bullet(player.x, player.y, angle, 10, 5, true));
 });
 
 window.addEventListener("resize", () => {

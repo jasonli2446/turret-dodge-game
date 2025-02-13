@@ -36,6 +36,7 @@ class CollisionHandler {
         if (CollisionHandler.checkTurretCollision(bullet, turret)) {
           bullets.splice(bIndex, 1);
           turrets.splice(tIndex, 1);
+          turretsDestroyed++;
         }
       });
     });
