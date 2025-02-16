@@ -12,12 +12,12 @@ class Turret {
       this.bulletSize = 5;
     } else if (type === "fast") {
       this.fireRate = 1000;
-      this.bulletSpeed = 5;
+      this.bulletSpeed = 8;
       this.bulletSize = 5;
     } else if (type === "heavy") {
       this.fireRate = 3000;
       this.bulletSpeed = 2;
-      this.bulletSize = 10;
+      this.bulletSize = 15;
     }
   }
 
