@@ -1,3 +1,12 @@
+import Player from "./player.js";
+import Turret from "./turret.js";
+import Bullet from "./bullet.js";
+import InputHandler from "./input.js";
+import CollisionHandler from "./collision.js";
+import { drawGrid } from "./utils/grid.js";
+import { border } from "./utils/border.js";
+import { drawUI, displayGameOver } from "./ui.js";
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const startScreen = document.getElementById("startScreen");
@@ -15,16 +24,9 @@ let player,
   lastSpawn,
   startTime,
   gameOver,
-  turretsDestroyed,
-  border;
+  turretsDestroyed;
 
 function initializeGame() {
-  border = {
-    x: -500,
-    y: -500,
-    width: 2500,
-    height: 1000,
-  };
   player = new Player(
     border.x + border.width / 2,
     border.y + border.height / 2
@@ -32,12 +34,12 @@ function initializeGame() {
   bullets = [];
   turrets = [];
   turretBullets = [];
-  inputHandler = new InputHandler(player, bullets);
+  inputHandler = new InputHandler(player, bullets, canvas);
   spawnRate = 3000;
   lastSpawn = Date.now();
   startTime = Date.now();
-  gameOver = false;
-  turretsDestroyed = 0;
+  gameOver = { value: false };
+  turretsDestroyed = { value: 0 };
 }
 
 function startGame() {
@@ -76,59 +78,11 @@ function spawnTurret() {
   } while (!isSpawnLocationValid(x, y));
 
   let type = turretTypes[Math.floor(Math.random() * turretTypes.length)];
-  turrets.push(new Turret(x, y, type));
-}
-
-function drawUI() {
-  let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-  ctx.fillStyle = "white";
-  ctx.font = "20px Arial";
-  ctx.fillText(`Time Survived: ${elapsedTime}s`, 10, 30);
-  for (let i = 0; i < player.health; i++) {
-    ctx.fillStyle = "red";
-    ctx.fillRect(10 + i * 25, 60, 20, 20);
-  }
-}
-
-function drawGrid(ctx, cameraX, cameraY) {
-  const gridSize = 50;
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-  ctx.lineWidth = 1;
-
-  for (let x = border.x; x <= border.x + border.width; x += gridSize) {
-    ctx.beginPath();
-    ctx.moveTo(x, border.y);
-    ctx.lineTo(x, border.y + border.height);
-    ctx.stroke();
-  }
-
-  for (let y = border.y; y <= border.y + border.height; y += gridSize) {
-    ctx.beginPath();
-    ctx.moveTo(border.x, y);
-    ctx.lineTo(border.x + border.width, y);
-    ctx.stroke();
-  }
-}
-
-function displayGameOver(score) {
-  gameOver = true;
-  const scoreElement = document.createElement("div");
-  scoreElement.id = "gameOver";
-  scoreElement.innerHTML = `Game Over! Score: ${
-    score * 100
-  }<br>Turrets Destroyed: ${turretsDestroyed}`;
-  document.body.appendChild(scoreElement);
-  const playAgainButton = document.createElement("button");
-  playAgainButton.id = "playAgain";
-  playAgainButton.innerHTML = "Play Again";
-  playAgainButton.onclick = () => {
-    window.location.reload();
-  };
-  document.body.appendChild(playAgainButton);
+  turrets.push(new Turret(x, y, type, turretBullets));
 }
 
 function gameLoop() {
-  if (gameOver) return;
+  if (gameOver.value) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Calculate camera offset
@@ -142,7 +96,7 @@ function gameLoop() {
   ctx.translate(-cameraX, -cameraY);
 
   // Draw grid
-  drawGrid(ctx, cameraX, cameraY);
+  drawGrid(ctx, border);
 
   // Draw border
   ctx.strokeStyle = "white";
@@ -188,12 +142,21 @@ function gameLoop() {
     turret.shoot(player);
     turret.draw(ctx);
   });
-  CollisionHandler.handleCollisions(bullets, turrets, turretBullets, player);
+  CollisionHandler.handleCollisions(
+    bullets,
+    turrets,
+    turretBullets,
+    player,
+    turretsDestroyed,
+    startTime,
+    gameOver,
+    startGame
+  );
 
   // Restore the context to its original state
   ctx.restore();
 
-  drawUI();
+  drawUI(ctx, player, startTime);
   requestAnimationFrame(gameLoop);
 }
 

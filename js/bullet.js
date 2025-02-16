@@ -1,3 +1,5 @@
+import { border } from "./utils/border.js";
+
 class Bullet {
   constructor(x, y, angle, speed = 5, radius = 5, isPlayerBullet = false) {
     this.x = x;
@@ -31,3 +33,5 @@ class Bullet {
     ctx.fill();
   }
 }
+
+export default Bullet;

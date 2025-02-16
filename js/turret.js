@@ -1,10 +1,13 @@
+import Bullet from "./bullet.js";
+
 class Turret {
-  constructor(x, y, type) {
+  constructor(x, y, type, turretBullets) {
     this.x = x;
     this.y = y;
     this.type = type;
     this.size = 30;
     this.lastShot = 0;
+    this.turretBullets = turretBullets;
 
     if (type === "basic") {
       this.fireRate = 2000;
@@ -24,7 +27,7 @@ class Turret {
   shoot(player) {
     let angle = Math.atan2(player.y - this.y, player.x - this.x);
     if (Date.now() - this.lastShot > this.fireRate) {
-      turretBullets.push(
+      this.turretBullets.push(
         new Bullet(
           this.x,
           this.y,
@@ -53,3 +56,5 @@ class Turret {
     );
   }
 }
+
+export default Turret;

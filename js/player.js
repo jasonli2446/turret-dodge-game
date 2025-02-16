@@ -1,3 +1,5 @@
+import { border } from "./utils/border.js";
+
 class Player {
   constructor(x, y) {
     this.x = x;
@@ -29,3 +31,5 @@ class Player {
     ctx.fill();
   }
 }
+
+export default Player;

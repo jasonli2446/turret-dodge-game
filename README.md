@@ -23,7 +23,13 @@ Turret Dodge Game is a simple browser-based game where the player must dodge bul
 
 ## Usage
 
-1. Enter npx live-server to start the game
+1. Enter
+
+```sh
+npx live-server
+```
+
+to start the game
 
 ## Game Mechanics
 

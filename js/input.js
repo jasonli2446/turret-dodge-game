@@ -1,8 +1,11 @@
+import Bullet from "./bullet.js";
+
 class InputHandler {
-  constructor(player, bullets) {
+  constructor(player, bullets, canvas) {
     this.keys = {};
     this.player = player;
     this.bullets = bullets;
+    this.canvas = canvas;
 
     window.addEventListener("keydown", (event) => {
       this.keys[event.key] = true;
@@ -26,3 +29,5 @@ class InputHandler {
     });
   }
 }
+
+export default InputHandler;

@@ -1,3 +1,5 @@
+import { displayGameOver } from "./ui.js";
+
 class CollisionHandler {
   static checkTurretCollision(circle, rect) {
     let distX = Math.abs(circle.x - rect.x - rect.size / 2);
@@ -29,14 +31,23 @@ class CollisionHandler {
     return distance < circle1.radius + circle2.radius;
   }
 
-  static handleCollisions(bullets, turrets, turretBullets, player) {
+  static handleCollisions(
+    bullets,
+    turrets,
+    turretBullets,
+    player,
+    turretsDestroyed,
+    startTime,
+    gameOver,
+    startGame
+  ) {
     // Player bullets hit turrets
     bullets.forEach((bullet, bIndex) => {
       turrets.forEach((turret, tIndex) => {
         if (CollisionHandler.checkTurretCollision(bullet, turret)) {
           bullets.splice(bIndex, 1);
           turrets.splice(tIndex, 1);
-          turretsDestroyed++;
+          turretsDestroyed.value++; // Increment turretsDestroyed
         }
       });
     });
@@ -57,9 +68,16 @@ class CollisionHandler {
         player.health -= 1;
         turretBullets.splice(bIndex, 1);
         if (player.health <= 0) {
-          displayGameOver(Math.floor((Date.now() - startTime) / 1000));
+          gameOver.value = true;
+          displayGameOver(
+            Math.floor((Date.now() - startTime) / 1000),
+            turretsDestroyed.value,
+            startGame
+          );
         }
       }
     });
   }
 }
+
+export default CollisionHandler;
