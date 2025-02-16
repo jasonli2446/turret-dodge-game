@@ -15,10 +15,20 @@ let player,
   lastSpawn,
   startTime,
   gameOver,
-  turretsDestroyed;
+  turretsDestroyed,
+  border;
 
 function initializeGame() {
-  player = new Player(canvas.width / 2, canvas.height / 2);
+  border = {
+    x: -500,
+    y: -500,
+    width: 2500,
+    height: 1000,
+  };
+  player = new Player(
+    border.x + border.width / 2,
+    border.y + border.height / 2
+  );
   bullets = [];
   turrets = [];
   turretBullets = [];
@@ -59,13 +69,10 @@ function spawnTurret() {
   if (elapsedTime > 10) turretTypes.push("fast");
   if (elapsedTime > 20) turretTypes.push("heavy");
 
-  const cameraX = player.x - canvas.width / 2;
-  const cameraY = player.y - canvas.height / 2;
-
   let x, y;
   do {
-    x = Math.random() * canvas.width + cameraX;
-    y = Math.random() * canvas.height + cameraY;
+    x = Math.random() * (border.width - 100) + border.x + 50;
+    y = Math.random() * (border.height - 100) + border.y + 50;
   } while (!isSpawnLocationValid(x, y));
 
   let type = turretTypes[Math.floor(Math.random() * turretTypes.length)];
@@ -114,6 +121,11 @@ function gameLoop() {
   // Translate the context to center the player
   ctx.translate(-cameraX, -cameraY);
 
+  // Draw border
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 5;
+  ctx.strokeRect(border.x, border.y, border.width, border.height);
+
   let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
   if (elapsedTime > 10) {
     turrets.forEach((turret) => {
@@ -133,13 +145,21 @@ function gameLoop() {
   }
   player.move(inputHandler.keys);
   player.draw(ctx);
-  bullets.forEach((bullet) => {
+  bullets.forEach((bullet, index) => {
     bullet.move();
-    bullet.draw(ctx);
+    if (bullet.remove) {
+      bullets.splice(index, 1);
+    } else {
+      bullet.draw(ctx);
+    }
   });
-  turretBullets.forEach((bullet) => {
+  turretBullets.forEach((bullet, index) => {
     bullet.move();
-    bullet.draw(ctx);
+    if (bullet.remove) {
+      turretBullets.splice(index, 1);
+    } else {
+      bullet.draw(ctx);
+    }
   });
   turrets.forEach((turret) => {
     turret.shoot(player);

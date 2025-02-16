@@ -12,6 +12,14 @@ class Player {
     if (keys["s"] || keys["ArrowDown"]) this.y += this.speed;
     if (keys["a"] || keys["ArrowLeft"]) this.x -= this.speed;
     if (keys["d"] || keys["ArrowRight"]) this.x += this.speed;
+
+    // Prevent player from moving outside the border
+    if (this.x - this.radius < border.x) this.x = border.x + this.radius;
+    if (this.x + this.radius > border.x + border.width)
+      this.x = border.x + border.width - this.radius;
+    if (this.y - this.radius < border.y) this.y = border.y + this.radius;
+    if (this.y + this.radius > border.y + border.height)
+      this.y = border.y + border.height - this.radius;
   }
 
   draw(ctx) {

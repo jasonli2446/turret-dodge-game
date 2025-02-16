@@ -12,6 +12,16 @@ class Bullet {
   move() {
     this.x += this.dx;
     this.y += this.dy;
+
+    // Check for border collisions
+    if (
+      this.x - this.radius < border.x ||
+      this.x + this.radius > border.x + border.width ||
+      this.y - this.radius < border.y ||
+      this.y + this.radius > border.y + border.height
+    ) {
+      this.remove = true;
+    }
   }
 
   draw(ctx) {
