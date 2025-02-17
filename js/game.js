@@ -89,7 +89,8 @@ function spawnTurret() {
 function spawnPowerUp() {
   let x = Math.random() * (border.width - 100) + border.x + 50;
   let y = Math.random() * (border.height - 100) + border.y + 50;
-  let type = "heart"; // Add logic to randomly select different types of power-ups
+  let types = ["heart", "rapidFire"];
+  let type = types[Math.floor(Math.random() * types.length)];
   powerUps.push(new PowerUp(x, y, type));
 }
 

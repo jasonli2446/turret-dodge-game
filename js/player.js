@@ -7,6 +7,7 @@ class Player {
     this.radius = 15;
     this.speed = 5;
     this.health = 3;
+    this.rapidFire = false;
   }
 
   move(keys) {

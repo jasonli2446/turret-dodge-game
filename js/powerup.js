@@ -7,6 +7,8 @@ class PowerUp {
     this.image = new Image();
     if (type === "heart") {
       this.image.src = "assets/images/heart.webp";
+    } else if (type === "rapidFire") {
+      this.image.src = "assets/images/lightning.png";
     }
     // Add more types and their corresponding images here
   }
@@ -24,6 +26,11 @@ class PowerUp {
   applyEffect(player) {
     if (this.type === "heart") {
       player.health += 1;
+    } else if (this.type === "rapidFire") {
+      player.rapidFire = true;
+      setTimeout(() => {
+        player.rapidFire = false;
+      }, 5000); // Rapid fire lasts for 5 seconds
     }
     // Add more effects for other types here
   }
