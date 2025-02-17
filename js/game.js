@@ -1,6 +1,7 @@
 import Player from "./player.js";
 import Turret from "./turret.js";
 import Bullet from "./bullet.js";
+import PowerUp from "./powerup.js";
 import InputHandler from "./input.js";
 import CollisionHandler from "./collision.js";
 import { drawGrid } from "./utils/grid.js";
@@ -19,9 +20,11 @@ let player,
   bullets,
   turrets,
   turretBullets,
+  powerUps,
   inputHandler,
   spawnRate,
   lastSpawn,
+  lastPowerUpSpawn,
   startTime,
   gameOver,
   turretsDestroyed;
@@ -34,9 +37,11 @@ function initializeGame() {
   bullets = [];
   turrets = [];
   turretBullets = [];
+  powerUps = [];
   inputHandler = new InputHandler(player, bullets, canvas);
   spawnRate = 3000;
   lastSpawn = Date.now();
+  lastPowerUpSpawn = Date.now();
   startTime = Date.now();
   gameOver = { value: false };
   turretsDestroyed = { value: 0 };
@@ -81,6 +86,13 @@ function spawnTurret() {
   turrets.push(new Turret(x, y, type, turretBullets));
 }
 
+function spawnPowerUp() {
+  let x = Math.random() * (border.width - 100) + border.x + 50;
+  let y = Math.random() * (border.height - 100) + border.y + 50;
+  let type = "heart"; // Add logic to randomly select different types of power-ups
+  powerUps.push(new PowerUp(x, y, type));
+}
+
 function gameLoop() {
   if (gameOver.value) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -120,6 +132,11 @@ function gameLoop() {
     lastSpawn = Date.now();
     if (spawnRate > 1200) spawnRate -= 200;
   }
+  if (Date.now() - lastPowerUpSpawn > 10000) {
+    // Spawn a power-up every 10 seconds
+    spawnPowerUp();
+    lastPowerUpSpawn = Date.now();
+  }
   player.move(inputHandler.keys);
   player.draw(ctx);
   bullets.forEach((bullet, index) => {
@@ -141,6 +158,13 @@ function gameLoop() {
   turrets.forEach((turret) => {
     turret.shoot(player);
     turret.draw(ctx);
+  });
+  powerUps.forEach((powerUp, index) => {
+    powerUp.draw(ctx);
+    if (CollisionHandler.checkCircleCollision(player, powerUp)) {
+      powerUp.applyEffect(player);
+      powerUps.splice(index, 1);
+    }
   });
   CollisionHandler.handleCollisions(
     bullets,
