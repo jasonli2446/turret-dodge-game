@@ -9,45 +9,93 @@ class Turret {
     this.lastShot = 0;
     this.turretBullets = turretBullets;
 
-    if (type === "basic") {
-      this.fireRate = 2000;
-      this.bulletSpeed = 3;
-      this.bulletSize = 5;
-    } else if (type === "fast") {
-      this.fireRate = 1000;
-      this.bulletSpeed = 8;
-      this.bulletSize = 5;
-    } else if (type === "heavy") {
-      this.fireRate = 3000;
-      this.bulletSpeed = 2;
-      this.bulletSize = 15;
+    switch (type) {
+      case "basic":
+        this.fireRate = 2000;
+        this.bulletSpeed = 3;
+        this.bulletSize = 5;
+        this.color = "green";
+        break;
+      case "sniper":
+        this.fireRate = 5000;
+        this.bulletSpeed = 12;
+        this.bulletSize = 5;
+        this.color = "orange";
+        break;
+      case "heavy":
+        this.fireRate = 3000;
+        this.bulletSpeed = 2;
+        this.bulletSize = 15;
+        this.color = "purple";
+        break;
+      case "scatter":
+        this.fireRate = 1500;
+        this.bulletSpeed = 4;
+        this.bulletSize = 5;
+        this.color = "yellow";
+        break;
+      case "homing":
+        this.fireRate = 2000;
+        this.bulletSpeed = 3;
+        this.bulletSize = 5;
+        this.color = "pink";
+        break;
+      default:
+        this.color = "gray"; // Default color for unknown types
     }
   }
 
   shoot(player) {
     let angle = Math.atan2(player.y - this.y, player.x - this.x);
     if (Date.now() - this.lastShot > this.fireRate) {
-      this.turretBullets.push(
-        new Bullet(
-          this.x,
-          this.y,
-          angle,
-          this.bulletSpeed,
-          this.bulletSize,
-          false
-        )
-      );
+      if (this.type === "scatter") {
+        for (let i = -1; i <= 1; i++) {
+          this.turretBullets.push(
+            new Bullet(
+              this.x,
+              this.y,
+              angle + i * 0.2,
+              this.bulletSpeed,
+              this.bulletSize,
+              false,
+              false,
+              this.type
+            )
+          );
+        }
+      } else if (this.type === "homing") {
+        this.turretBullets.push(
+          new Bullet(
+            this.x,
+            this.y,
+            angle,
+            this.bulletSpeed,
+            this.bulletSize,
+            false,
+            true,
+            this.type
+          )
+        );
+      } else {
+        this.turretBullets.push(
+          new Bullet(
+            this.x,
+            this.y,
+            angle,
+            this.bulletSpeed,
+            this.bulletSize,
+            false,
+            false,
+            this.type
+          )
+        );
+      }
       this.lastShot = Date.now();
     }
   }
 
   draw(ctx) {
-    ctx.fillStyle =
-      this.type === "basic"
-        ? "green"
-        : this.type === "fast"
-        ? "orange"
-        : "purple";
+    ctx.fillStyle = this.color;
     ctx.fillRect(
       this.x - this.size / 2,
       this.y - this.size / 2,

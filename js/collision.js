@@ -57,7 +57,9 @@ class CollisionHandler {
       turretBullets.forEach((turretBullet, tbIndex) => {
         if (CollisionHandler.checkCircleCollision(bullet, turretBullet)) {
           bullets.splice(bIndex, 1);
-          turretBullets.splice(tbIndex, 1);
+          if (turretBullet.type !== "heavy") {
+            turretBullets.splice(tbIndex, 1);
+          }
         }
       });
     });

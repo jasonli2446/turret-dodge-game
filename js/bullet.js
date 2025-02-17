@@ -1,7 +1,16 @@
 import { border } from "./utils/border.js";
 
 class Bullet {
-  constructor(x, y, angle, speed = 5, radius = 5, isPlayerBullet = false) {
+  constructor(
+    x,
+    y,
+    angle,
+    speed = 5,
+    radius = 5,
+    isPlayerBullet = false,
+    isHoming = false,
+    type = "normal"
+  ) {
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -9,9 +18,16 @@ class Bullet {
     this.dx = Math.cos(angle) * this.speed;
     this.dy = Math.sin(angle) * this.speed;
     this.isPlayerBullet = isPlayerBullet;
+    this.isHoming = isHoming;
+    this.type = type;
   }
 
-  move() {
+  move(player) {
+    if (this.isHoming) {
+      let angle = Math.atan2(player.y - this.y, player.x - this.x);
+      this.dx = Math.cos(angle) * this.speed;
+      this.dy = Math.sin(angle) * this.speed;
+    }
     this.x += this.dx;
     this.y += this.dy;
 
