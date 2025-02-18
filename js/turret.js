@@ -18,7 +18,7 @@ class Turret {
         break;
       case "sniper":
         this.fireRate = 5000;
-        this.bulletSpeed = 12;
+        this.bulletSpeed = 10;
         this.bulletSize = 5;
         this.color = "orange";
         break;

@@ -8,6 +8,8 @@ class Player {
     this.speed = 5;
     this.health = 3;
     this.rapidFire = false;
+    this.shielded = false;
+    this.powerUpTimers = {};
   }
 
   move(keys) {
@@ -30,6 +32,40 @@ class Player {
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = "blue";
     ctx.fill();
+
+    // Draw shield if active
+    if (this.shielded) {
+      const timeLeft = this.powerUpTimers.shielded.endTime - Date.now();
+      const opacity =
+        timeLeft < 2000 ? Math.abs(Math.sin(Date.now() / 100)) : 1;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius + 5, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(0, 255, 255, ${opacity})`;
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+  }
+
+  activatePowerUp(type, duration) {
+    if (this.powerUpTimers[type]) {
+      clearTimeout(this.powerUpTimers[type].timeout);
+    }
+    this.powerUpTimers[type] = {
+      endTime: Date.now() + duration,
+      timeout: setTimeout(() => {
+        this[type] = false;
+        delete this.powerUpTimers[type];
+      }, duration),
+    };
+    this[type] = true;
+  }
+
+  activateRapidFire(duration) {
+    this.activatePowerUp("rapidFire", duration);
+  }
+
+  activateShield(duration) {
+    this.activatePowerUp("shielded", duration);
   }
 }
 

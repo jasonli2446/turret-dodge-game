@@ -67,7 +67,9 @@ class CollisionHandler {
     // Enemy bullets hit player
     turretBullets.forEach((bullet, bIndex) => {
       if (CollisionHandler.checkCircleCollision(bullet, player)) {
-        player.health -= 1;
+        if (!player.shielded) {
+          player.health -= 1;
+        }
         turretBullets.splice(bIndex, 1);
         if (player.health <= 0) {
           gameOver.value = true;

@@ -6,7 +6,7 @@ import InputHandler from "./input.js";
 import CollisionHandler from "./collision.js";
 import { drawGrid } from "./utils/grid.js";
 import { border } from "./utils/border.js";
-import { drawUI, displayGameOver } from "./ui.js";
+import { drawUI } from "./ui.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -66,7 +66,7 @@ function isSpawnLocationValid(x, y) {
   let dx = player.x - x;
   let dy = player.y - y;
   let distance = Math.sqrt(dx * dx + dy * dy);
-  if (distance < 200) return false;
+  if (distance < 300) return false;
   return true;
 }
 
@@ -91,7 +91,7 @@ function spawnTurret() {
 function spawnPowerUp() {
   let x = Math.random() * (border.width - 100) + border.x + 50;
   let y = Math.random() * (border.height - 100) + border.y + 50;
-  let types = ["heart", "rapidFire"];
+  let types = ["heart", "rapidFire", "shield", "explosion"];
   let type = types[Math.floor(Math.random() * types.length)];
   powerUps.push(new PowerUp(x, y, type));
 }
@@ -121,10 +121,10 @@ function gameLoop() {
   if (Date.now() - lastSpawn > spawnRate) {
     spawnTurret();
     lastSpawn = Date.now();
-    if (spawnRate > 1000) spawnRate -= 100;
+    if (spawnRate > 1200) spawnRate -= 200;
   }
-  if (Date.now() - lastPowerUpSpawn > 20000) {
-    // Spawn a power-up every 20 seconds
+  if (Date.now() - lastPowerUpSpawn > 15000) {
+    // Spawn a power-up every 15 seconds
     spawnPowerUp();
     lastPowerUpSpawn = Date.now();
   }
@@ -146,14 +146,14 @@ function gameLoop() {
       bullet.draw(ctx);
     }
   });
-  turrets.forEach((turret) => {
+  turrets.forEach((turret, tIndex) => {
     turret.shoot(player);
     turret.draw(ctx);
   });
   powerUps.forEach((powerUp, index) => {
     powerUp.draw(ctx);
     if (CollisionHandler.checkCircleCollision(player, powerUp)) {
-      powerUp.applyEffect(player);
+      powerUp.applyEffect(player, turrets, turretBullets);
       powerUps.splice(index, 1);
     }
   });
