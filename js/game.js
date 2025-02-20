@@ -39,7 +39,7 @@ function initializeGame() {
   turretBullets = [];
   powerUps = [];
   inputHandler = new InputHandler(player, bullets, canvas);
-  spawnRate = 3000;
+  spawnRate = 2500;
   lastSpawn = Date.now();
   lastPowerUpSpawn = Date.now();
   startTime = Date.now();
@@ -73,10 +73,10 @@ function isSpawnLocationValid(x, y) {
 function spawnTurret() {
   let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
   let turretTypes = ["basic"];
-  if (elapsedTime > 10) turretTypes.push("sniper");
-  if (elapsedTime > 20) turretTypes.push("heavy");
-  if (elapsedTime > 30) turretTypes.push("scatter");
-  if (elapsedTime > 40) turretTypes.push("homing");
+  if (elapsedTime > 15) turretTypes.push("sniper");
+  if (elapsedTime > 30) turretTypes.push("heavy");
+  if (elapsedTime > 45) turretTypes.push("scatter");
+  if (elapsedTime > 60) turretTypes.push("homing");
 
   let x, y;
   do {
@@ -121,7 +121,7 @@ function gameLoop() {
   if (Date.now() - lastSpawn > spawnRate) {
     spawnTurret();
     lastSpawn = Date.now();
-    if (spawnRate > 1200) spawnRate -= 200;
+    if (spawnRate > 1000) spawnRate -= 100;
   }
   if (Date.now() - lastPowerUpSpawn > 15000) {
     // Spawn a power-up every 15 seconds
