@@ -1,4 +1,4 @@
-import { displayGameOver } from "./ui.js";
+import { displayGameOver } from "../ui/drawUI.js";
 
 class CollisionHandler {
   static checkTurretCollision(circle, rect) {

@@ -1,4 +1,4 @@
-import { border } from "./utils/border.js";
+import { border } from "../utils/border.js";
 
 class Bullet {
   constructor(
