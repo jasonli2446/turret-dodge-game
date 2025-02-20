@@ -21,20 +21,85 @@ export function drawUI(ctx, player, startTime) {
 }
 
 export function displayGameOver(score, turretsDestroyed, startGame) {
-  const gameOverElement = document.createElement("div");
-  gameOverElement.id = "gameOver";
-  gameOverElement.innerHTML = `Game Over! Score: ${
+  const gameOverScreen = document.getElementById("gameOverScreen");
+  const gameOverMessage = document.getElementById("gameOverMessage");
+  const nameInputContainer = document.getElementById("nameInputContainer");
+  const playerNameInput = document.getElementById("playerName");
+  const submitNameButton = document.getElementById("submitNameButton");
+  const playAgainButton = document.getElementById("playAgainButton");
+  const viewLeaderboardButton = document.getElementById(
+    "viewLeaderboardButton"
+  );
+
+  gameOverMessage.innerHTML = `Game Over! Score: ${
     score * 100
   }<br>Turrets Destroyed: ${turretsDestroyed}`;
-  document.body.appendChild(gameOverElement);
+  gameOverScreen.style.display = "block";
 
-  const playAgainButton = document.createElement("button");
-  playAgainButton.id = "playAgain";
-  playAgainButton.innerHTML = "Play Again";
+  // Check if the score is in the top 10
+  const leaderboard = getLeaderboard();
+  if (
+    leaderboard.length < 10 ||
+    score * 100 > leaderboard[leaderboard.length - 1].score
+  ) {
+    nameInputContainer.style.display = "block";
+    submitNameButton.onclick = () => {
+      const name = playerNameInput.value;
+      if (name) {
+        addToLeaderboard(name, score * 100, turretsDestroyed);
+        nameInputContainer.style.display = "none";
+        displayLeaderboard();
+      }
+    };
+  } else {
+    displayLeaderboard();
+  }
+
   playAgainButton.onclick = () => {
-    document.body.removeChild(gameOverElement);
-    document.body.removeChild(playAgainButton);
+    gameOverScreen.style.display = "none";
     startGame();
   };
-  document.body.appendChild(playAgainButton);
+
+  viewLeaderboardButton.onclick = () => {
+    displayLeaderboard();
+  };
+}
+
+function getLeaderboard() {
+  const leaderboard = localStorage.getItem("leaderboard");
+  return leaderboard ? JSON.parse(leaderboard) : [];
+}
+
+function addToLeaderboard(name, score, turretsDestroyed) {
+  const leaderboard = getLeaderboard();
+  leaderboard.push({ name, score, turretsDestroyed });
+  leaderboard.sort((a, b) => b.score - a.score);
+  if (leaderboard.length > 10) {
+    leaderboard.pop();
+  }
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+}
+
+function displayLeaderboard() {
+  const leaderboard = getLeaderboard();
+  const leaderboardPopup = document.getElementById("leaderboardPopup");
+  const leaderboardList = document.getElementById("leaderboardList");
+  const closeLeaderboardButton = document.getElementById(
+    "closeLeaderboardButton"
+  );
+
+  leaderboardList.innerHTML = "";
+  leaderboard.forEach((entry, index) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${index + 1}. ${entry.name}: ${
+      entry.score
+    } (Turrets Destroyed: ${entry.turretsDestroyed})`;
+    leaderboardList.appendChild(listItem);
+  });
+
+  leaderboardPopup.style.display = "flex";
+
+  closeLeaderboardButton.onclick = () => {
+    leaderboardPopup.style.display = "none";
+  };
 }

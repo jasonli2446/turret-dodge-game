@@ -13,6 +13,23 @@
         <button id="startButton">Start Game</button>
     </div>
     <canvas id="gameCanvas"></canvas>
+    <div id="gameOverScreen" style="display: none;">
+        <h2 id="gameOverMessage"></h2>
+        <div id="nameInputContainer" style="display: none;">
+            <p>Congratulations! You made it to the leaderboard. Enter your name:</p>
+            <input type="text" id="playerName" placeholder="Enter your name">
+            <button id="submitNameButton">Submit</button>
+        </div>
+        <button id="playAgainButton">Play Again</button>
+        <button id="viewLeaderboardButton">View Leaderboard</button>
+    </div>
+    <div id="leaderboardPopup" style="display: none;">
+        <div id="leaderboardContent">
+            <h2>Leaderboard</h2>
+            <ol id="leaderboardList"></ol>
+            <button id="closeLeaderboardButton">Close</button>
+        </div>
+    </div>
     <script type="module" src="js/bullet.js"></script>
     <script type="module" src="js/player.js"></script>
     <script type="module" src="js/turret.js"></script>

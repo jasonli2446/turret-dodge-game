@@ -6,7 +6,7 @@ import InputHandler from "./input.js";
 import CollisionHandler from "./collision.js";
 import { drawGrid } from "./utils/grid.js";
 import { border } from "./utils/border.js";
-import { drawUI } from "./ui.js";
+import { drawUI, displayGameOver } from "./ui.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
