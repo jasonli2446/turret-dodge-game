@@ -18,6 +18,7 @@ export function initializeGame(canvas) {
   const startTime = Date.now();
   const gameOver = { value: false };
   const turretsDestroyed = { value: 0 };
+  const explosions = [];
 
   return {
     player,
@@ -33,5 +34,6 @@ export function initializeGame(canvas) {
     gameOver,
     turretsDestroyed,
     border,
+    explosions,
   };
 }

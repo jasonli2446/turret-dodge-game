@@ -17,7 +17,7 @@ class PowerUp {
   }
 
   draw(ctx) {
-    const size = this.type === "shield" ? 60 : 30; // Make shield icon bigger
+    const size = this.type === "shield" ? 60 : 30;
     ctx.drawImage(
       this.image,
       this.x - this.radius,
@@ -27,15 +27,26 @@ class PowerUp {
     );
   }
 
-  applyEffect(player, turrets, turretBullets) {
+  applyEffect(player, turrets, turretBullets, ctx, gameState) {
     if (this.type === "heart") {
       player.health += 1;
     } else if (this.type === "rapidFire") {
-      player.activateRapidFire(5000); // Rapid fire lasts for 5 seconds
+      player.activateRapidFire(5000);
     } else if (this.type === "shield") {
-      player.activateShield(5000); // Shield lasts for 5 seconds
+      player.activateShield(5000);
     } else if (this.type === "explosion") {
-      const explosionRadius = 1000;
+      const explosionRadius = 800;
+      const explosionStartTime = Date.now();
+
+      // Add explosion effect to gameState
+      gameState.explosions.push({
+        x: player.x,
+        y: player.y,
+        radius: explosionRadius,
+        startTime: explosionStartTime,
+        duration: 1000,
+      });
+
       for (let i = turrets.length - 1; i >= 0; i--) {
         const dx = turrets[i].x - player.x;
         const dy = turrets[i].y - player.y;

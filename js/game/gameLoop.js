@@ -31,6 +31,7 @@ export function gameLoop(ctx, gameState, startGame) {
   );
 
   if (Date.now() - gameState.lastSpawn > gameState.spawnRate) {
+    // Spawn turret logic
     spawnTurret(gameState);
     gameState.lastSpawn = Date.now();
     if (gameState.spawnRate > 1000) gameState.spawnRate -= 100;
@@ -68,11 +69,28 @@ export function gameLoop(ctx, gameState, startGame) {
       powerUp.applyEffect(
         gameState.player,
         gameState.turrets,
-        gameState.turretBullets
+        gameState.turretBullets,
+        ctx,
+        gameState
       );
       gameState.powerUps.splice(index, 1);
     }
   });
+
+  // Draw explosions
+  const currentTime = Date.now();
+  gameState.explosions = gameState.explosions.filter((explosion) => {
+    if (currentTime - explosion.startTime < explosion.duration) {
+      ctx.beginPath();
+      ctx.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
+      ctx.strokeStyle = "orange";
+      ctx.lineWidth = 5;
+      ctx.stroke();
+      return true;
+    }
+    return false;
+  });
+
   CollisionHandler.handleCollisions(
     gameState.bullets,
     gameState.turrets,
