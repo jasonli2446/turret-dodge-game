@@ -1,0 +1,18 @@
+#startButton,
+#submitNameButton,
+#playAgainButton,
+#viewLeaderboardButton,
+#closeLeaderboardButton {
+  padding: 10px 20px;
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#closeLeaderboardButton {
+  margin-top: 30px;
+}
+
+#startButton {
+  margin-top: 30px;
+}

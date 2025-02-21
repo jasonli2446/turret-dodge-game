@@ -1,0 +1,16 @@
+h1,
+h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#gameOverMessage {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+#nameInputContainer p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
