@@ -17,7 +17,7 @@
         <h2 id="gameOverMessage"></h2>
         <div id="nameInputContainer" style="display: none;">
             <p>Congratulations! You made it to the leaderboard. Enter your name:</p>
-            <input type="text" id="playerName" placeholder="Enter your name">
+            <input type="text" id="playerName" placeholder="Enter your name" maxlength="20">
             <button id="submitNameButton">Submit</button>
         </div>
         <button id="playAgainButton">Play Again</button>
@@ -26,7 +26,12 @@
     <div id="leaderboardPopup" style="display: none;">
         <div id="leaderboardContent">
             <h2>Leaderboard</h2>
-            <ol id="leaderboardList"></ol>
+            <div id="leaderboardGrid" class="leaderboard-grid">
+                <div id="leaderboardRank" class="leaderboard-column"></div>
+                <div id="leaderboardName" class="leaderboard-column"></div>
+                <div id="leaderboardScore" class="leaderboard-column"></div>
+                <div id="leaderboardTurrets" class="leaderboard-column"></div>
+            </div>
             <button id="closeLeaderboardButton">Close</button>
         </div>
     </div>

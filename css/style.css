@@ -104,22 +104,67 @@ canvas {
   color: white;
   font-family: Arial, sans-serif;
   width: 80%;
-  max-width: 600px;
-}
-
-#leaderboardList {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-}
-
-#leaderboardList li {
-  margin: 10px 0;
-  font-size: 20px;
+  max-width: 800px;
 }
 
 #closeLeaderboardButton {
+  margin-top: 30px;
   padding: 10px 20px;
   font-size: 24px;
   cursor: pointer;
+}
+
+#leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#leaderboardTable th,
+#leaderboardTable td {
+  padding: 10px;
+  text-align: left;
+  color: white;
+}
+
+#leaderboardTable th {
+  background-color: #444;
+}
+
+#leaderboardTable tbody tr:nth-child(even) {
+  background-color: #333;
+}
+
+#leaderboardTable tbody tr:nth-child(odd) {
+  background-color: #222;
+}
+
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr 2fr; /* Adjust column widths */
+  gap: 10px; /* Space between columns */
+  margin-top: 20px;
+}
+
+.leaderboard-header {
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  border-bottom: 2px solid white;
+  padding: 8px;
+}
+
+.leaderboard-item {
+  color: white;
+  text-align: center;
+  padding: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevents line breaks */
+}
+
+.leaderboard-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
