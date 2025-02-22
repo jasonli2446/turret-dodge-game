@@ -34,11 +34,19 @@ class Turret {
         this.bulletSize = 5;
         this.color = "yellow";
         break;
+      case "burst":
+        this.fireRate = 3000;
+        this.bulletSpeed = 8;
+        this.bulletSize = 5;
+        this.color = "pink";
+        this.burstCount = 5;
+        this.burstInterval = 150;
+        break;
       case "homing":
         this.fireRate = 2000;
         this.bulletSpeed = 3;
         this.bulletSize = 5;
-        this.color = "pink";
+        this.color = "brown";
         break;
       default:
         this.color = "gray"; // Default color for unknown types
@@ -62,6 +70,23 @@ class Turret {
               this.type
             )
           );
+        }
+      } else if (this.type === "burst") {
+        for (let i = 0; i < this.burstCount; i++) {
+          setTimeout(() => {
+            this.turretBullets.push(
+              new Bullet(
+                this.x,
+                this.y,
+                angle,
+                this.bulletSpeed,
+                this.bulletSize,
+                false,
+                false,
+                this.type
+              )
+            );
+          }, i * this.burstInterval);
         }
       } else if (this.type === "homing") {
         this.turretBullets.push(
