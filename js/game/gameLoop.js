@@ -34,10 +34,12 @@ export function gameLoop(ctx, gameState, startGame) {
     // Spawn turret logic
     spawnTurret(gameState);
     gameState.lastSpawn = Date.now();
-    if (gameState.spawnRate > 1000) gameState.spawnRate -= 100;
+    if (gameState.spawnRate > gameState.maxSpawnRate) {
+      gameState.spawnRate -= 100;
+    }
   }
-  if (Date.now() - gameState.lastPowerUpSpawn > 15000) {
-    // Spawn a power-up every 15 seconds
+  if (Date.now() - gameState.lastPowerUpSpawn > gameState.powerUpSpawnRate) {
+    // Spawn a power-up based on the power-up spawn rate
     spawnPowerUp(gameState);
     gameState.lastPowerUpSpawn = Date.now();
   }

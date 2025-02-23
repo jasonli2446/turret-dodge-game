@@ -5,7 +5,7 @@ class Bullet {
     x,
     y,
     angle,
-    speed = 5,
+    speed = 1,
     radius = 5,
     isPlayerBullet = false,
     isHoming = false,

@@ -15,18 +15,100 @@
     <div id="startScreen">
         <h1>Turret Dodge Game</h1>
         <p>Use WASD or Arrow keys to move. Click to shoot.</p>
-        <button id="startButton">Start Game</button>
+        <button id="startButton" class="styled-button">Start Game</button>
+        <button id="customizeButton" class="styled-button" style="margin-top: 20px;">Customize Game Settings</button>
     </div>
+
+    <!-- Hidden Settings Popup -->
+    <div id="settingsPopup" style="display: none;">
+        <div id="settingsContent">
+            <h2>Game Settings</h2>
+
+            <div class="setting-row">
+                <label>Initial Spawn Rate (ms):</label>
+                <input type="range" id="initialSpawnRateInput" min="500" max="5000" step="100">
+                <span id="initialSpawnRateValue"></span>
+            </div>
+
+            <div class="setting-row">
+                <label>Max Spawn Rate (ms):</label>
+                <input type="range" id="maxSpawnRateInput" min="100" max="2000" step="100">
+                <span id="maxSpawnRateValue"></span>
+            </div>
+
+            <div class="setting-row">
+                <label>Power-Up Spawn Rate (ms):</label>
+                <input type="range" id="powerUpSpawnRateInput" min="5000" max="30000" step="1000">
+                <span id="powerUpSpawnRateValue"></span>
+            </div>
+
+            <div class="setting-row">
+                <label>Player Health:</label>
+                <input type="range" id="playerHealthInput" min="1" max="10" step="1">
+                <span id="playerHealthValue"></span>
+            </div>
+
+            <div class="setting-row">
+                <label>Player Movement Speed:</label>
+                <input type="range" id="playerSpeedInput" min="1" max="10" step="1">
+                <span id="playerSpeedValue"></span>
+            </div>
+
+            <h3>Select Turret Types</h3>
+            <div id="turretSelectionContainer">
+                <div class="turret-option" data-type="basic" style="background: green; color: #333;">Basic</div>
+                <div class="turret-option" data-type="sniper" style="background: orange; color: #333;">Sniper</div>
+                <div class="turret-option" data-type="heavy" style="background: purple; color: #333;">Heavy</div>
+                <div class="turret-option" data-type="scatter" style="background: yellow; color: #333;">Scatter</div>
+                <div class="turret-option" data-type="burst" style="background: pink; color: #333;">Burst</div>
+                <div class="turret-option" data-type="homing" style="background: brown; color: #333;">Homing</div>
+            </div>
+
+            <h3>Select Power-Up Types</h3>
+            <div id="powerupSelectionContainer">
+                <div class="powerup-option" data-type="heart">
+                    <img src="assets/images/heart.webp" alt="heart" width="40" height="40">
+                </div>
+                <div class="powerup-option" data-type="rapidFire">
+                    <img src="assets/images/lightning.png" alt="lightning" width="40" height="40">
+                </div>
+                <div class="powerup-option" data-type="shield">
+                    <img src="assets/images/shield.png" alt="shield" width="40" height="40">
+                </div>
+                <div class="powerup-option" data-type="explosion">
+                    <img src="assets/images/explosion.png" alt="explosion" width="40" height="40">
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button id="saveSettingsButton" class="styled-button">Save</button>
+                <button id="importSettingsButton" class="styled-button">Import</button>
+                <button id="exportSettingsButton" class="styled-button">Export</button>
+                <button id="revertSettingsButton" class="styled-button">Revert to Default</button>
+            </div>
+            <button id="closeSettingsButton" class="close-button">Close</button>
+        </div>
+    </div>
+
+    <div id="advancedSettingsPopup" style="display: none;">
+        <div id="advancedSettingsContent">
+            <h2>Exported Settings</h2>
+            <textarea id="exportOutput" readonly style="width: 90%; height: 80px;"></textarea><br>
+            <button id="copyExportButton" class="styled-button">Copy</button>
+            <button id="closeAdvancedSettingsButton" class="close-button">Close</button>
+        </div>
+    </div>
+
     <canvas id="gameCanvas"></canvas>
     <div id="gameOverScreen" style="display: none;">
         <h2 id="gameOverMessage"></h2>
         <div id="nameInputContainer" style="display: none;">
             <p>Congratulations! You made it to the leaderboard. Enter your name:</p>
             <input type="text" id="playerName" placeholder="Enter your name" maxlength="20">
-            <button id="submitNameButton">Submit</button>
+            <button id="submitNameButton" class="styled-button">Submit</button>
         </div>
-        <button id="playAgainButton">Play Again</button>
-        <button id="viewLeaderboardButton">View Leaderboard</button>
+        <button id="playAgainButton" class="styled-button">Play Again</button>
+        <button id="viewLeaderboardButton" class="styled-button">View Leaderboard</button>
     </div>
     <div id="leaderboardPopup" style="display: none;">
         <div id="leaderboardContent">
@@ -37,7 +119,7 @@
                 <div id="leaderboardScore" class="leaderboard-column"></div>
                 <div id="leaderboardTurrets" class="leaderboard-column"></div>
             </div>
-            <button id="closeLeaderboardButton">Close</button>
+            <button id="closeLeaderboardButton" class="styled-button">Close</button>
         </div>
     </div>
     <script type="module" src="js/components/bullet.js"></script>

@@ -17,7 +17,7 @@ class PowerUp {
   }
 
   draw(ctx) {
-    const size = this.type === "shield" ? 60 : 30;
+    const size = this.radius * 2;
     ctx.drawImage(
       this.image,
       this.x - this.radius,

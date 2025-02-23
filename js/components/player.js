@@ -1,12 +1,12 @@
 import { border } from "../utils/border.js";
 
-class Player {
-  constructor(x, y) {
+export default class Player {
+  constructor(x, y, health = 3, speed = 3) {
     this.x = x;
     this.y = y;
     this.radius = 15;
-    this.speed = 5;
-    this.health = 3;
+    this.speed = speed;
+    this.health = health;
     this.rapidFire = false;
     this.shielded = false;
     this.powerUpTimers = {};
@@ -68,5 +68,3 @@ class Player {
     this.activatePowerUp("shielded", duration);
   }
 }
-
-export default Player;

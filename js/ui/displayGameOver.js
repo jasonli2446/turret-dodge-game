@@ -39,13 +39,6 @@ export function displayGameOver(score, turretsDestroyed, startGame) {
     displayLeaderboard();
   }
 
-  playAgainButton.onclick = () => {
-    gameOverScreen.style.display = "none";
-    startGame();
-  };
-
-  viewLeaderboardButton.onclick = () => {
-    displayLeaderboard();
-    document.getElementById("leaderboardPopup").style.display = "flex";
-  };
+  playAgainButton.onclick = startGame;
+  viewLeaderboardButton.onclick = displayLeaderboard;
 }

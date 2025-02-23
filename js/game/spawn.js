@@ -2,13 +2,7 @@ import Turret from "../components/turret.js";
 import PowerUp from "../components/powerup.js";
 
 export function spawnTurret(gameState) {
-  let elapsedTime = Math.floor((Date.now() - gameState.startTime) / 1000);
-  let turretTypes = ["basic"];
-  if (elapsedTime > 15) turretTypes.push("sniper");
-  if (elapsedTime > 30) turretTypes.push("heavy");
-  if (elapsedTime > 45) turretTypes.push("scatter");
-  if (elapsedTime > 60) turretTypes.push("burst");
-  if (elapsedTime > 75) turretTypes.push("homing");
+  let turretTypes = gameState.turretTypes;
 
   let x, y;
   do {
@@ -27,7 +21,7 @@ export function spawnPowerUp(gameState) {
     Math.random() * (gameState.border.width - 100) + gameState.border.x + 50;
   let y =
     Math.random() * (gameState.border.height - 100) + gameState.border.y + 50;
-  let types = ["heart", "rapidFire", "shield", "explosion"];
+  let types = gameState.powerUpTypes;
   let type = types[Math.floor(Math.random() * types.length)];
   gameState.powerUps.push(new PowerUp(x, y, type));
 }

@@ -16,3 +16,112 @@
   padding: 10px;
   font-size: 24px;
 }
+
+#settingsPopup,
+#advancedSettingsPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#settingsContent,
+#advancedSettingsContent {
+  background-color: #333;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 700px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.setting-row label {
+  flex: 1;
+  padding-right: 10px;
+}
+
+.setting-row input[type="range"] {
+  flex: 2;
+}
+
+.setting-row span {
+  flex: 1;
+  text-align: right;
+  margin-left: 10px;
+}
+
+.turret-option,
+.powerup-option {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 8px;
+  background-color: #222;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.turret-option:hover,
+.powerup-option:hover {
+  border: 2px solid white;
+}
+
+.turret-option.selected,
+.powerup-option.selected {
+  border: 2px solid white;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+}
+
+.styled-button {
+  padding: 15px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.styled-button:hover {
+  background-color: #555;
+}
+
+.close-button {
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 30px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.close-button:hover {
+  background-color: #666;
+}
+
+h3 {
+  margin-top: 20px;
+}
