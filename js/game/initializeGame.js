@@ -23,7 +23,7 @@ export function initializeGame(canvas) {
   const maxSR = stored.maxSpawnRate || 1000;
   const powerUpSR = stored.powerUpSpawnRate || 15000;
   const playerHealth = stored.playerHealth || 3;
-  const playerSpeed = stored.playerSpeed || 5;
+  const playerSpeed = stored.playerSpeed || 3;
 
   // (2) Create player with custom health & speed
   const player = new Player(

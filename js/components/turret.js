@@ -12,31 +12,31 @@ class Turret {
     switch (type) {
       case "basic":
         this.fireRate = 2000;
-        this.bulletSpeed = 3;
+        this.bulletSpeed = 2;
         this.bulletSize = 5;
         this.color = "green";
         break;
       case "sniper":
         this.fireRate = 5000;
-        this.bulletSpeed = 10;
+        this.bulletSpeed = 8;
         this.bulletSize = 5;
         this.color = "orange";
         break;
       case "heavy":
         this.fireRate = 3000;
-        this.bulletSpeed = 2;
+        this.bulletSpeed = 1;
         this.bulletSize = 15;
         this.color = "purple";
         break;
       case "scatter":
         this.fireRate = 1500;
-        this.bulletSpeed = 4;
+        this.bulletSpeed = 3;
         this.bulletSize = 5;
         this.color = "yellow";
         break;
       case "burst":
         this.fireRate = 3000;
-        this.bulletSpeed = 8;
+        this.bulletSpeed = 4;
         this.bulletSize = 5;
         this.color = "pink";
         this.burstCount = 5;
@@ -44,7 +44,7 @@ class Turret {
         break;
       case "homing":
         this.fireRate = 2000;
-        this.bulletSpeed = 3;
+        this.bulletSpeed = 2;
         this.bulletSize = 5;
         this.color = "brown";
         break;
