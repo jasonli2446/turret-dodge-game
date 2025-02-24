@@ -18,6 +18,7 @@ export function initializeGame(canvas) {
     "rapidFire",
     "shield",
     "explosion",
+    "freeze",
   ];
   const initialSR = stored.initialSpawnRate || 2500;
   const maxSR = stored.maxSpawnRate || 1000;

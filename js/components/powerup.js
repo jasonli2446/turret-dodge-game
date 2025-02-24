@@ -13,6 +13,8 @@ class PowerUp {
       this.image.src = "assets/images/shield.png";
     } else if (type === "explosion") {
       this.image.src = "assets/images/explosion.png";
+    } else if (type === "freeze") {
+      this.image.src = "assets/images/ice.png";
     }
   }
 
@@ -63,6 +65,31 @@ class PowerUp {
           turretBullets.splice(i, 1);
         }
       }
+    } else if (this.type === "freeze") {
+      // Freeze all enemy bullets for 5 seconds
+      turretBullets.forEach((bullet) => {
+        bullet.frozen = true;
+        bullet.originalDx = bullet.dx;
+        bullet.originalDy = bullet.dy;
+        bullet.dx = 0;
+        bullet.dy = 0;
+      });
+
+      turrets.forEach((turret) => {
+        turret.frozen = true;
+      });
+
+      setTimeout(() => {
+        turretBullets.forEach((bullet) => {
+          bullet.frozen = false;
+          bullet.dx = bullet.originalDx;
+          bullet.dy = bullet.originalDy;
+        });
+
+        turrets.forEach((turret) => {
+          turret.frozen = false;
+        });
+      }, 3000);
     }
   }
 }

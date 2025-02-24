@@ -8,6 +8,7 @@ class Turret {
     this.size = 30;
     this.lastShot = 0;
     this.turretBullets = turretBullets;
+    this.frozen = false; // Add frozen property
 
     switch (type) {
       case "basic":
@@ -54,6 +55,8 @@ class Turret {
   }
 
   shoot(player) {
+    if (this.frozen) return; // Skip shooting if frozen
+
     let angle = Math.atan2(player.y - this.y, player.x - this.x);
     if (Date.now() - this.lastShot > this.fireRate) {
       if (this.type === "scatter") {

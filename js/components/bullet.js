@@ -20,9 +20,12 @@ class Bullet {
     this.isPlayerBullet = isPlayerBullet;
     this.isHoming = isHoming;
     this.type = type;
+    this.frozen = false;
   }
 
   move(player) {
+    if (this.frozen) return;
+
     if (this.isHoming) {
       let angle = Math.atan2(player.y - this.y, player.x - this.x);
       this.dx = Math.cos(angle) * this.speed;
