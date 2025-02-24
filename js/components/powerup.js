@@ -40,7 +40,6 @@ class PowerUp {
       const explosionRadius = 800;
       const explosionStartTime = Date.now();
 
-      // Add explosion effect to gameState
       gameState.explosions.push({
         x: player.x,
         y: player.y,
@@ -66,11 +65,18 @@ class PowerUp {
         }
       }
     } else if (this.type === "freeze") {
-      // Freeze all enemy bullets for 5 seconds
+      // Clear any existing freeze timeout
+      if (gameState.freezeTimeout) {
+        clearTimeout(gameState.freezeTimeout);
+      }
+
+      // Freeze all enemy bullets and turrets
       turretBullets.forEach((bullet) => {
+        if (!bullet.frozen) {
+          bullet.originalDx = bullet.dx;
+          bullet.originalDy = bullet.dy;
+        }
         bullet.frozen = true;
-        bullet.originalDx = bullet.dx;
-        bullet.originalDy = bullet.dy;
         bullet.dx = 0;
         bullet.dy = 0;
       });
@@ -79,7 +85,9 @@ class PowerUp {
         turret.frozen = true;
       });
 
-      setTimeout(() => {
+      gameState.frozen = true;
+
+      gameState.freezeTimeout = setTimeout(() => {
         turretBullets.forEach((bullet) => {
           bullet.frozen = false;
           bullet.dx = bullet.originalDx;
@@ -89,7 +97,10 @@ class PowerUp {
         turrets.forEach((turret) => {
           turret.frozen = false;
         });
-      }, 3000);
+
+        gameState.frozen = false;
+        gameState.freezeTimeout = null;
+      }, 2000);
     }
   }
 }

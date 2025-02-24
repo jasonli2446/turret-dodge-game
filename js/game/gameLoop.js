@@ -30,19 +30,23 @@ export function gameLoop(ctx, gameState, startGame) {
     gameState.border.height
   );
 
-  if (Date.now() - gameState.lastSpawn > gameState.spawnRate) {
-    // Spawn turret logic
-    spawnTurret(gameState);
-    gameState.lastSpawn = Date.now();
-    if (gameState.spawnRate > gameState.maxSpawnRate) {
-      gameState.spawnRate -= 100;
+  if (!gameState.frozen) {
+    // Check if the game is not frozen
+    if (Date.now() - gameState.lastSpawn > gameState.spawnRate) {
+      // Spawn turret logic
+      spawnTurret(gameState);
+      gameState.lastSpawn = Date.now();
+      if (gameState.spawnRate > gameState.maxSpawnRate) {
+        gameState.spawnRate -= 100;
+      }
+    }
+    if (Date.now() - gameState.lastPowerUpSpawn > gameState.powerUpSpawnRate) {
+      // Spawn a power-up based on the power-up spawn rate
+      spawnPowerUp(gameState);
+      gameState.lastPowerUpSpawn = Date.now();
     }
   }
-  if (Date.now() - gameState.lastPowerUpSpawn > gameState.powerUpSpawnRate) {
-    // Spawn a power-up based on the power-up spawn rate
-    spawnPowerUp(gameState);
-    gameState.lastPowerUpSpawn = Date.now();
-  }
+
   gameState.player.move(gameState.inputHandler.keys);
   gameState.player.draw(ctx);
   gameState.bullets.forEach((bullet, index) => {

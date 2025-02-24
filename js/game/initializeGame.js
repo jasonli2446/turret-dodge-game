@@ -50,8 +50,8 @@ export function initializeGame(canvas) {
     powerUps,
     inputHandler,
     spawnRate: initialSR,
-    maxSpawnRate: maxSR, // custom property
-    powerUpSpawnRate: powerUpSR, // custom property
+    maxSpawnRate: maxSR,
+    powerUpSpawnRate: powerUpSR,
     lastSpawn: Date.now(),
     lastPowerUpSpawn: Date.now(),
     startTime: Date.now(),
@@ -59,7 +59,9 @@ export function initializeGame(canvas) {
     turretsDestroyed: { value: 0 },
     border,
     explosions: [],
-    turretTypes, // pass these to your spawn logic
-    powerUpTypes, // pass these to your spawn logic
+    turretTypes,
+    powerUpTypes,
+    frozen: false,
+    freezeTimeout: null,
   };
 }

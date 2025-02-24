@@ -21,6 +21,8 @@ class Bullet {
     this.isHoming = isHoming;
     this.type = type;
     this.frozen = false;
+    this.originalDx = this.dx;
+    this.originalDy = this.dy;
   }
 
   move(player) {
