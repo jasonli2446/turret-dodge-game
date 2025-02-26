@@ -86,11 +86,31 @@ export function gameLoop(ctx, gameState, startGame) {
   const currentTime = Date.now();
   gameState.explosions = gameState.explosions.filter((explosion) => {
     if (currentTime - explosion.startTime < explosion.duration) {
-      ctx.beginPath();
-      ctx.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
-      ctx.strokeStyle = "orange";
-      ctx.lineWidth = 5;
-      ctx.stroke();
+      if (explosion.isAnimated) {
+        // Draw animated expanding circle with fading opacity
+        const progress = Math.min(
+          (currentTime - explosion.startTime) / explosion.duration,
+          1
+        );
+        const currentRadius = explosion.maxRadius * progress;
+        ctx.beginPath();
+        ctx.arc(explosion.x, explosion.y, currentRadius, 0, Math.PI * 2);
+        const opacity = 0.5 * (1 - progress); // Fade out as it expands
+        ctx.fillStyle = `rgba(255, 125, 0, ${opacity})`;
+        ctx.fill();
+
+        // Also draw a stroke for better visibility
+        ctx.strokeStyle = `rgba(255, 69, 0, ${opacity * 1.5})`;
+        ctx.lineWidth = 10 * (1 - progress) + 1;
+        ctx.stroke();
+      } else {
+        // Draw standard explosion
+        ctx.beginPath();
+        ctx.arc(explosion.x, explosion.y, explosion.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = "orange";
+        ctx.lineWidth = 5;
+        ctx.stroke();
+      }
       return true;
     }
     return false;

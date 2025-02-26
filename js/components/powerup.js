@@ -40,12 +40,15 @@ class PowerUp {
       const explosionRadius = 800;
       const explosionStartTime = Date.now();
 
+      // Add explosion effect to gameState with visual animation properties
       gameState.explosions.push({
         x: player.x,
         y: player.y,
-        radius: explosionRadius,
+        radius: 0, // Start with radius 0 and expand
+        maxRadius: explosionRadius,
         startTime: explosionStartTime,
         duration: 1000,
+        isAnimated: true, // Flag to identify this as an animated explosion
       });
 
       for (let i = turrets.length - 1; i >= 0; i--) {
