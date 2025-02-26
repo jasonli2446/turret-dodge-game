@@ -31,7 +31,6 @@ export function gameLoop(ctx, gameState, startGame) {
   );
 
   if (!gameState.frozen) {
-    // Check if the game is not frozen
     if (Date.now() - gameState.lastSpawn > gameState.spawnRate) {
       // Spawn turret logic
       spawnTurret(gameState);
@@ -96,6 +95,26 @@ export function gameLoop(ctx, gameState, startGame) {
     }
     return false;
   });
+
+  // Draw freeze effects
+  if (gameState.freezeEffects) {
+    gameState.freezeEffects = gameState.freezeEffects.filter((effect) => {
+      const progress = Math.min(
+        (currentTime - effect.startTime) / effect.duration,
+        1
+      );
+      const currentRadius = effect.maxRadius * progress;
+
+      // Draw expanding circle with fading opacity
+      ctx.beginPath();
+      ctx.arc(effect.x, effect.y, currentRadius, 0, Math.PI * 2);
+      const opacity = 0.5 * (1 - progress); // Fade out as it expands
+      ctx.fillStyle = `rgba(135, 206, 250, ${opacity})`;
+      ctx.fill();
+
+      return currentTime - effect.startTime < effect.duration;
+    });
+  }
 
   CollisionHandler.handleCollisions(
     gameState.bullets,

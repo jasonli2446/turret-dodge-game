@@ -87,6 +87,20 @@ class PowerUp {
 
       gameState.frozen = true;
 
+      // Add freeze effect animation
+      const freezeRadius = 800;
+      const freezeStartTime = Date.now();
+
+      gameState.freezeEffects = gameState.freezeEffects || [];
+      gameState.freezeEffects.push({
+        x: player.x,
+        y: player.y,
+        radius: 0, // Start with radius 0 and expand
+        maxRadius: freezeRadius,
+        startTime: freezeStartTime,
+        duration: 1000,
+      });
+
       gameState.freezeTimeout = setTimeout(() => {
         turretBullets.forEach((bullet) => {
           bullet.frozen = false;

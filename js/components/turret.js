@@ -8,7 +8,7 @@ class Turret {
     this.size = 30;
     this.lastShot = 0;
     this.turretBullets = turretBullets;
-    this.frozen = false; // Add frozen property
+    this.frozen = false;
 
     switch (type) {
       case "basic":

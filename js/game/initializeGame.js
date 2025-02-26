@@ -59,6 +59,7 @@ export function initializeGame(canvas) {
     turretsDestroyed: { value: 0 },
     border,
     explosions: [],
+    freezeEffects: [],
     turretTypes,
     powerUpTypes,
     frozen: false,
