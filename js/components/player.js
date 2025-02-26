@@ -1,7 +1,7 @@
 import { border } from "../utils/border.js";
 
 export default class Player {
-  constructor(x, y, health = 3, speed = 3) {
+  constructor(x, y, health = 3, speed = 5) {
     this.x = x;
     this.y = y;
     this.radius = 15;

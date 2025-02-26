@@ -138,7 +138,7 @@ export function initSettingsUI() {
   };
   playerSpeedInput.oninput = () => {
     document.getElementById("playerSpeedValue").textContent =
-      playerSpeedInput.value; // Display the scaled value directly
+      playerSpeedInput.value;
   };
 }
 
@@ -151,8 +151,7 @@ function loadSettingsToForm() {
   document.getElementById("powerUpSpawnRateInput").value =
     stored.powerUpSpawnRate || 15000;
   document.getElementById("playerHealthInput").value = stored.playerHealth || 3;
-  document.getElementById("playerSpeedInput").value =
-    (stored.playerSpeed || 2.5) * 2; // Scale the value to match the slider
+  document.getElementById("playerSpeedInput").value = stored.playerSpeed || 5;
 
   document.getElementById("initialSpawnRateValue").textContent =
     stored.initialSpawnRate || 2500;
@@ -163,7 +162,7 @@ function loadSettingsToForm() {
   document.getElementById("playerHealthValue").textContent =
     stored.playerHealth || 3;
   document.getElementById("playerSpeedValue").textContent =
-    (stored.playerSpeed || 2.5) * 2; // Display the scaled value directly
+    stored.playerSpeed || 5;
 
   const turretTypes = stored.turretTypes || [
     "basic",
@@ -178,6 +177,7 @@ function loadSettingsToForm() {
     "rapidFire",
     "shield",
     "explosion",
+    "freeze",
   ];
 
   Array.from(document.querySelectorAll(".turret-option")).forEach((option) => {
@@ -209,8 +209,7 @@ function saveFormToLocalStorage() {
       document.getElementById("powerUpSpawnRateInput").value
     ),
     playerHealth: parseInt(document.getElementById("playerHealthInput").value),
-    playerSpeed:
-      parseFloat(document.getElementById("playerSpeedInput").value) / 2, // Scale the value to match the actual speed
+    playerSpeed: parseFloat(document.getElementById("playerSpeedInput").value),
     turretTypes: Array.from(
       document.querySelectorAll(".turret-option.selected")
     ).map((el) => el.getAttribute("data-type")),
