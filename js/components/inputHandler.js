@@ -56,7 +56,7 @@ class InputHandler {
       mouseX + cameraX - this.player.x
     );
     this.bullets.push(
-      new Bullet(this.player.x, this.player.y, angle, 10, 5, true)
+      new Bullet(this.player.x, this.player.y, angle, 12, 5, true)
     );
   }
 }
