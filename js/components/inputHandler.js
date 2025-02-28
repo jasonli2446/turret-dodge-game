@@ -7,9 +7,22 @@ class InputHandler {
     this.bullets = bullets;
     this.canvas = canvas;
     this.shooting = false;
+    this.lastSpacePress = 0; // Prevent repeated space bar triggers
 
     window.addEventListener("keydown", (event) => {
       this.keys[event.key] = true;
+
+      // Handle space bar for dash
+      if (event.key === " " || event.code === "Space") {
+        // Prevent repeated triggers from key being held down
+        const now = Date.now();
+        if (now - this.lastSpacePress > 200) {
+          // Small buffer to prevent double-triggering
+          this.player.dash(this.keys);
+          this.lastSpacePress = now;
+        }
+        event.preventDefault(); // Prevent page scrolling with space
+      }
     });
 
     window.addEventListener("keyup", (event) => {

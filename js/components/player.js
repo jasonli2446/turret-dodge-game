@@ -10,13 +10,49 @@ export default class Player {
     this.rapidFire = false;
     this.shielded = false;
     this.powerUpTimers = {};
+    // Dash properties
+    this.dashSpeed = this.speed * 2; // Dash speed multiplier
+    this.dashLength = 150; // How far to dash
+    this.dashCooldown = 1000; // Cooldown in milliseconds
+    this.lastDashTime = 0;
+    this.isDashing = false;
+    this.dashDirection = { x: 0, y: 0 }; // Direction of dash
+    this.dashDistance = 0; // Distance traveled during dash
   }
 
   move(keys) {
-    if (keys["w"] || keys["ArrowUp"]) this.y -= this.speed;
-    if (keys["s"] || keys["ArrowDown"]) this.y += this.speed;
-    if (keys["a"] || keys["ArrowLeft"]) this.x -= this.speed;
-    if (keys["d"] || keys["ArrowRight"]) this.x += this.speed;
+    // Handle normal movement
+    let moveX = 0;
+    let moveY = 0;
+
+    if (keys["w"] || keys["ArrowUp"]) moveY -= 1;
+    if (keys["s"] || keys["ArrowDown"]) moveY += 1;
+    if (keys["a"] || keys["ArrowLeft"]) moveX -= 1;
+    if (keys["d"] || keys["ArrowRight"]) moveX += 1;
+
+    // Normalize diagonal movement
+    if (moveX !== 0 && moveY !== 0) {
+      const magnitude = Math.sqrt(moveX * moveX + moveY * moveY);
+      moveX /= magnitude;
+      moveY /= magnitude;
+    }
+
+    // Handle dash movement
+    if (this.isDashing) {
+      this.x += this.dashDirection.x * this.dashSpeed;
+      this.y += this.dashDirection.y * this.dashSpeed;
+
+      this.dashDistance += this.dashSpeed;
+
+      if (this.dashDistance >= this.dashLength) {
+        this.isDashing = false;
+        this.dashDistance = 0;
+      }
+    } else {
+      // Normal movement
+      this.x += moveX * this.speed;
+      this.y += moveY * this.speed;
+    }
 
     // Prevent player from moving outside the border
     if (this.x - this.radius < border.x) this.x = border.x + this.radius;
@@ -27,10 +63,48 @@ export default class Player {
       this.y = border.y + border.height - this.radius;
   }
 
+  dash(keys) {
+    const currentTime = Date.now();
+    if (currentTime - this.lastDashTime < this.dashCooldown || this.isDashing) {
+      return; // Still on cooldown or already dashing
+    }
+
+    // Determine dash direction based on current movement keys
+    let dirX = 0;
+    let dirY = 0;
+
+    if (keys["w"] || keys["ArrowUp"]) dirY -= 1;
+    if (keys["s"] || keys["ArrowDown"]) dirY += 1;
+    if (keys["a"] || keys["ArrowLeft"]) dirX -= 1;
+    if (keys["d"] || keys["ArrowRight"]) dirX += 1;
+
+    // If no direction keys are pressed, dash forward (based on last movement)
+    if (dirX === 0 && dirY === 0) {
+      // Default to dashing right if no direction
+      dirX = 1;
+    }
+
+    // Normalize the direction vector
+    const magnitude = Math.sqrt(dirX * dirX + dirY * dirY);
+    this.dashDirection = {
+      x: dirX / magnitude,
+      y: dirY / magnitude,
+    };
+
+    this.isDashing = true;
+    this.lastDashTime = currentTime;
+  }
+
   draw(ctx) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = "blue";
+
+    // Change player color when dashing
+    if (this.isDashing) {
+      ctx.fillStyle = "lightblue";
+    } else {
+      ctx.fillStyle = "blue";
+    }
     ctx.fill();
 
     // Draw shield if active
