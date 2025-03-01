@@ -46,6 +46,7 @@ to start the game
 - **A / Arrow Left**: Move left
 - **D / Arrow Right**: Move right
 - **Mouse Click**: Shoot bullet
+- **Space Bar**: Dash
 
 ## Contributing
 
