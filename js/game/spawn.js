@@ -2,7 +2,7 @@ import Turret from "../components/turret.js";
 import PowerUp from "../components/powerup.js";
 
 export function spawnTurret(gameState) {
-  let turretTypes = gameState.turretTypes;
+  let availableTurretTypes = gameState.activeTurretTypes;
 
   let x, y;
   do {
@@ -12,7 +12,10 @@ export function spawnTurret(gameState) {
       Math.random() * (gameState.border.height - 100) + gameState.border.y + 50;
   } while (!isSpawnLocationValid(x, y, gameState));
 
-  let type = turretTypes[Math.floor(Math.random() * turretTypes.length)];
+  let type =
+    availableTurretTypes[
+      Math.floor(Math.random() * availableTurretTypes.length)
+    ];
   gameState.turrets.push(new Turret(x, y, type, gameState.turretBullets));
 }
 

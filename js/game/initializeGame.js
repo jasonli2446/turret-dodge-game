@@ -74,6 +74,9 @@ export function initializeGame(canvas) {
   // Check if using default settings
   const isDefaultSettings = usingDefaultSettings(stored);
 
+  // Start with only basic turrets if using default settings
+  let activeTurretTypes = isDefaultSettings ? ["basic"] : turretTypes;
+
   // (2) Create player with custom health & speed
   const player = new Player(
     border.x + border.width / 2,
@@ -109,9 +112,17 @@ export function initializeGame(canvas) {
     explosions: [],
     freezeEffects: [],
     turretTypes,
+    activeTurretTypes,
     powerUpTypes,
     frozen: false,
     freezeTimeout: null,
-    isDefaultSettings: isDefaultSettings,
+    isDefaultSettings,
+    turretUnlockSchedule: [
+      { type: "sniper", unlockTime: 15 },
+      { type: "heavy", unlockTime: 30 },
+      { type: "scatter", unlockTime: 45 },
+      { type: "burst", unlockTime: 60 },
+      { type: "homing", unlockTime: 75 },
+    ],
   };
 }

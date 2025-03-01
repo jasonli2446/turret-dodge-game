@@ -32,6 +32,29 @@ export function gameLoop(ctx, gameState, startGame) {
     gameState.border.height
   );
 
+  if (
+    gameState.isDefaultSettings &&
+    gameState.turretUnlockSchedule &&
+    gameState.turretUnlockSchedule.length > 0
+  ) {
+    const elapsedSeconds = Math.floor(
+      (Date.now() - gameState.startTime) / 1000
+    );
+
+    for (let i = gameState.turretUnlockSchedule.length - 1; i >= 0; i--) {
+      const unlock = gameState.turretUnlockSchedule[i];
+      if (elapsedSeconds >= unlock.unlockTime) {
+        // If not already in active types, add it
+        if (!gameState.activeTurretTypes.includes(unlock.type)) {
+          gameState.activeTurretTypes.push(unlock.type);
+        }
+
+        // Remove this item from the schedule
+        gameState.turretUnlockSchedule.splice(i, 1);
+      }
+    }
+  }
+
   if (!gameState.frozen) {
     if (Date.now() - gameState.lastSpawn > gameState.spawnRate) {
       // Spawn turret logic
