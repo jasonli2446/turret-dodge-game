@@ -7,6 +7,8 @@ export function gameLoop(ctx, gameState, startGame) {
   if (gameState.gameOver.value) return;
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
+  gameState.player.gameState = gameState;
+
   // Calculate camera offset
   const cameraX = gameState.player.x - ctx.canvas.width / 2;
   const cameraY = gameState.player.y - ctx.canvas.height / 2;

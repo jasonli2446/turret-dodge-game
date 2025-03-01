@@ -76,7 +76,8 @@ class CollisionHandler {
           displayGameOver(
             Math.floor((Date.now() - startTime) / 1000),
             turretsDestroyed.value,
-            startGame
+            startGame,
+            player.gameState && player.gameState.isDefaultSettings // Pass the default settings flag
           );
         }
       }

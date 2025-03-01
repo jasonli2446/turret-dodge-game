@@ -4,7 +4,12 @@ import {
   getLeaderboard,
 } from "./leaderboard.js";
 
-export function displayGameOver(score, turretsDestroyed, startGame) {
+export function displayGameOver(
+  score,
+  turretsDestroyed,
+  startGame,
+  isDefaultSettings = false
+) {
   const gameOverScreen = document.getElementById("gameOverScreen");
   const gameOverMessage = document.getElementById("gameOverMessage");
   const nameInputContainer = document.getElementById("nameInputContainer");
@@ -20,11 +25,18 @@ export function displayGameOver(score, turretsDestroyed, startGame) {
   }<br>Turrets Destroyed: ${turretsDestroyed}`;
   gameOverScreen.style.display = "block";
 
-  // Check if the score is in the top 10
+  // Remove any existing custom settings message
+  const existingMessage = document.getElementById("customSettingsMessage");
+  if (existingMessage) {
+    existingMessage.remove();
+  }
+
+  // Check if the score is in the top 10 AND using default settings
   const leaderboard = getLeaderboard();
   if (
-    leaderboard.length < 10 ||
-    score * 100 > leaderboard[leaderboard.length - 1].score
+    isDefaultSettings &&
+    (leaderboard.length < 10 ||
+      score * 100 > leaderboard[leaderboard.length - 1].score)
   ) {
     nameInputContainer.style.display = "block";
     submitNameButton.onclick = () => {
@@ -36,6 +48,25 @@ export function displayGameOver(score, turretsDestroyed, startGame) {
       }
     };
   } else {
+    nameInputContainer.style.display = "none";
+
+    // If custom settings were used, display a message
+    if (!isDefaultSettings) {
+      const customSettingsMessage = document.createElement("p");
+      customSettingsMessage.id = "customSettingsMessage";
+      customSettingsMessage.textContent =
+        "Note: Custom settings were used, so this score is not eligible for the leaderboard.";
+      customSettingsMessage.style.color = "yellow";
+      customSettingsMessage.style.fontSize = "16px";
+      customSettingsMessage.style.margin = "10px 0";
+
+      // Insert the message after gameOverMessage
+      gameOverMessage.parentNode.insertBefore(
+        customSettingsMessage,
+        gameOverMessage.nextSibling
+      );
+    }
+
     displayLeaderboard();
   }
 
