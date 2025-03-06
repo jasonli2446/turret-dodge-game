@@ -6,9 +6,9 @@ import { border } from "../utils/border.js";
 const DEFAULT_SETTINGS = {
   initialSpawnRate: 2500,
   maxSpawnRate: 1000,
-  powerUpSpawnRate: 15000,
+  powerUpSpawnRate: 10000,
   playerHealth: 3,
-  playerSpeed: 7,
+  playerSpeed: 4,
   turretTypes: ["basic", "sniper", "heavy", "scatter", "burst", "homing"],
   powerUpTypes: ["heart", "rapidFire", "shield", "explosion", "freeze"],
 };

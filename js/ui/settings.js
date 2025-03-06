@@ -149,20 +149,20 @@ function loadSettingsToForm() {
   document.getElementById("maxSpawnRateInput").value =
     stored.maxSpawnRate || 1000;
   document.getElementById("powerUpSpawnRateInput").value =
-    stored.powerUpSpawnRate || 15000;
+    stored.powerUpSpawnRate || 10000;
   document.getElementById("playerHealthInput").value = stored.playerHealth || 3;
-  document.getElementById("playerSpeedInput").value = stored.playerSpeed || 7;
+  document.getElementById("playerSpeedInput").value = stored.playerSpeed || 4;
 
   document.getElementById("initialSpawnRateValue").textContent =
     stored.initialSpawnRate || 2500;
   document.getElementById("maxSpawnRateValue").textContent =
     stored.maxSpawnRate || 1000;
   document.getElementById("powerUpSpawnRateValue").textContent =
-    stored.powerUpSpawnRate || 15000;
+    stored.powerUpSpawnRate || 10000;
   document.getElementById("playerHealthValue").textContent =
     stored.playerHealth || 3;
   document.getElementById("playerSpeedValue").textContent =
-    stored.playerSpeed || 7;
+    stored.playerSpeed || 4;
 
   const turretTypes = stored.turretTypes || [
     "basic",
