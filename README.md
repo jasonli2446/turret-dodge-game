@@ -46,6 +46,8 @@ npx live-server
 
 to start the game
 
+Or play the game directly in your browser: [Turret Dodge Game](https://jasonli2446.github.io/turret-dodge-game/)
+
 ## Game Mechanics
 
 - The player starts in the middle of the screen.
