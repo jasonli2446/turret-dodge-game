@@ -4,11 +4,26 @@ Turret Dodge Game is a simple browser-based game where the player must dodge bul
 
 ## Table of Contents
 
+- [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Game Mechanics](#game-mechanics)
 - [Controls](#controls)
 - [Contributing](#contributing)
+
+## Screenshots
+
+### Start Screen
+
+![Start Screen](assets/images/screenshots/start.png)
+
+### Settings Screen
+
+![Settings Screen](assets/images/screenshots/settings.png)
+
+### Gameplay
+
+![Gameplay](assets/images/screenshots/gameplay.png)
 
 ## Installation
 
